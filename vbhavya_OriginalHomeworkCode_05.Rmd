@@ -1,0 +1,112 @@
+---
+title: "vbhavya_OriginalHomeworkCode_05"
+author: "Bhavya Deepti Vadavalli"
+date: "2023-11-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Preliminaries 
+
+```{r preliminaries}
+library(curl)
+library(ggplot2)
+library(nlraa)
+
+dat <- read.csv(curl("https://raw.githubusercontent.com/fuzzyatelin/fuzzyatelin.github.io/master/AN588_Fall23/KamilarAndCooperData.csv"), header = TRUE, sep = ",", stringsAsFactors = FALSE)
+head(dat)
+```
+## Question 1: Using the “KamilarAndCooperData.csv” dataset, run a linear regression looking at log(HomeRange_km2) in relation to log(Body_mass_female_mean) and report your β coeffiecients (slope and intercept).
+
+```{r linear_model}
+
+m <- lm(log(HomeRange_km2) ~ log(Body_mass_female_mean), data = dat)
+m
+```
+I picked the type I linear regression for this because I think the two variables of home range and female body mass don't necessarily co-vary some other process. A type II linear regression would probably not be required
+
+The coefficients of the OLS regression are -9.441 for beta0, the intercept and 1.036 for the slope, making the equation: log(HomeRange_km2) = 1.036*log(Body_mass_female_mean) - 9.441
+
+```{r plotting}
+g <- ggplot(data = dat, aes(x = log(Body_mass_female_mean), log(HomeRange_km2)))
+g <- g + geom_point()
+g <- g + geom_smooth(method = "lm", formula = y ~ x)
+g #This is to check if the linear regression looks good or not
+
+```
+
+## Bootstrapping for CIs and SEs of the beta coefficients: 
+
+### Use bootstrapping to sample from your data 1000 times with replacement, each time fitting the same model and calculating the same coefficients. This generates a sampling distribution for each β coefficient.
+
+```{r samp_dist_beta}
+#We require data frames to hold all the beta0 and beta1 values for each of the 1000 lms 
+sample_intercept <- NULL
+sample_slope <- NULL
+
+for (i in 1:1000) {
+  boots_dat = dat[sample(1:nrow(dat), nrow(dat), replace = TRUE), ] #creating resamples with replacement
+  boots_dat <- lm(log(HomeRange_km2) ~ log(Body_mass_female_mean), data = boots_dat) #running lm on all the 1000 iterations
+  sample_intercept <- c(sample_intercept, boots_dat$coefficients[1])
+  sample_slope <- c(sample_slope, boots_dat$coefficients[2])
+}
+
+head(sample_intercept) #all 1000 intercepts
+head(sample_slope) #all 1000 slope values
+```
+Now that we have resampled and calculated 1000 bootstrapped intercepts and slopes, we need to find the confidence intervals and se values for these
+
+```{r}
+# For intercept
+mean_intercept <- mean(sample_intercept)
+mean_intercept
+sd_intercept <- sd(sample_intercept) #standard error
+sd_intercept
+lower_CI_int <- mean_intercept - qnorm(1 - 0.05/2) * sd_intercept #lower CI
+lower_CI_int
+upper_CI_int <- mean_intercept + qnorm(1 - 0.05/2) * sd_intercept #upper CI
+upper_CI_int
+
+#For slope
+mean_slope <- mean(sample_slope)
+mean_slope
+sd_slope <- sd(sample_slope) #standard error
+sd_slope
+lower_CI_sl <- mean_slope - qnorm(1 - 0.05/2) * sd_slope #lower CI
+lower_CI_sl
+upper_CI_sl <- mean_slope + qnorm(1 - 0.05/2) * sd_slope #upper CI
+upper_CI_sl
+
+```
+## Comparison with the Original Model
+
+```{r}
+summary(m) 
+#std error for intercept: 0.67293
+#std error for slope: 0.08488
+sd_intercept
+sd_slope
+```
+The standard error for the bootstraped regression is lower for both intercept and slope when compared to the lm(). 
+
+```{r}
+conf_int_lm <- confint(m, level = 0.95)
+conf_int_lm
+
+lower_CI_int #slightly lower than lm()
+upper_CI_int #slightly higher than lm()
+
+lower_CI_sl #slightly higher than lm()
+upper_CI_sl #slightly higher than lm()
+```
+There are some differences in the CIs, but overall, I doubt the differences are significantly different. 
+
+## Challenges I faced: 
+I found this assignment super straightforward. I did refer to https://towardsdatascience.com/linear-regression-with-bootstrapping-4924c05d2a9 for the bootstrapping code. I tried several different methods. I tried a function called boots_lm from the nlraa package but that didn't work out for me. After that I just ended up using the website I referenced. It was super comprehensive. 
+
+
+
+
