@@ -87,7 +87,10 @@ upper_CI_sl <- mean_slope + qnorm(1 - 0.05/2) * sd_slope #upper CI
 upper_CI_sl
 
 ```
-## Comparison with the Original Model
+
+**NOTES** This is really detailed and you really understand this assignment! I think you did a really great job! - AW 
+
+## Comparison with the Original Model 
 
 ```{r}
 summary(m) 
@@ -109,6 +112,8 @@ lower_CI_sl #slightly higher than lm()
 upper_CI_sl #slightly higher than lm()
 ```
 There are some differences in the CIs, but overall, I doubt the differences are significantly different. 
+
+**NOTES** I agree, my CI values were slightly different but really close to the CI values from the original model so I doubt they are too significant. -AW
 
 ## Challenges I faced: 
 I found this assignment super straightforward. I did refer to https://towardsdatascience.com/linear-regression-with-bootstrapping-4924c05d2a9 for the bootstrapping code. I tried several different methods. I tried a function called boots_lm from the nlraa package but that didn't work out for me. After that I just ended up using the website I referenced. It was super comprehensive. 
