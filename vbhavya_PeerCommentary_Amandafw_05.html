@@ -497,14 +497,14 @@ for (i in 1:1000) {
 
 head(sample_intercept) #all 1000 intercepts</code></pre>
 <pre><code>## (Intercept) (Intercept) (Intercept) (Intercept) (Intercept) (Intercept) 
-##   -9.381485   -9.366325   -9.575994   -9.884707   -9.515283   -9.029977</code></pre>
+##   -9.453055   -9.816257   -9.016033   -8.416772  -10.211924   -9.341916</code></pre>
 <pre class="r"><code>head(sample_slope) #all 1000 slope values</code></pre>
 <pre><code>## log(Body_mass_female_mean) log(Body_mass_female_mean) 
-##                  1.0517645                  1.0056228 
+##                  1.0609824                  1.0705059 
 ## log(Body_mass_female_mean) log(Body_mass_female_mean) 
-##                  1.0425839                  1.1047461 
+##                  0.9914773                  0.9173183 
 ## log(Body_mass_female_mean) log(Body_mass_female_mean) 
-##                  1.0284844                  0.9592591</code></pre>
+##                  1.0939633                  1.0105790</code></pre>
 <p>Now that we have resampled and calculated 1000 bootstrapped
 intercepts and slopes, we need to find the confidence intervals and se
 values for these</p>
@@ -514,29 +514,29 @@ same values so either way should be good. - AW</p>
 <pre class="r"><code># For intercept
 mean_intercept &lt;- mean(sample_intercept)
 mean_intercept</code></pre>
-<pre><code>## [1] -9.445841</code></pre>
+<pre><code>## [1] -9.45847</code></pre>
 <pre class="r"><code>sd_intercept &lt;- sd(sample_intercept) #standard error
 sd_intercept</code></pre>
-<pre><code>## [1] 0.5998859</code></pre>
+<pre><code>## [1] 0.5984381</code></pre>
 <pre class="r"><code>lower_CI_int &lt;- mean_intercept - qnorm(1 - 0.05/2) * sd_intercept #lower CI
 lower_CI_int</code></pre>
-<pre><code>## [1] -10.6216</code></pre>
+<pre><code>## [1] -10.63139</code></pre>
 <pre class="r"><code>upper_CI_int &lt;- mean_intercept + qnorm(1 - 0.05/2) * sd_intercept #upper CI
 upper_CI_int</code></pre>
-<pre><code>## [1] -8.270086</code></pre>
+<pre><code>## [1] -8.285553</code></pre>
 <pre class="r"><code>#For slope
 mean_slope &lt;- mean(sample_slope)
 mean_slope</code></pre>
-<pre><code>## [1] 1.037192</code></pre>
+<pre><code>## [1] 1.038164</code></pre>
 <pre class="r"><code>sd_slope &lt;- sd(sample_slope) #standard error
 sd_slope</code></pre>
-<pre><code>## [1] 0.07722354</code></pre>
+<pre><code>## [1] 0.07718193</code></pre>
 <pre class="r"><code>lower_CI_sl &lt;- mean_slope - qnorm(1 - 0.05/2) * sd_slope #lower CI
 lower_CI_sl</code></pre>
-<pre><code>## [1] 0.8858362</code></pre>
+<pre><code>## [1] 0.8868897</code></pre>
 <pre class="r"><code>upper_CI_sl &lt;- mean_slope + qnorm(1 - 0.05/2) * sd_slope #upper CI
 upper_CI_sl</code></pre>
-<pre><code>## [1] 1.188547</code></pre>
+<pre><code>## [1] 1.189437</code></pre>
 <p><strong>NOTES</strong> This is really detailed and you really
 understand this assignment! I think you did a really great job! - AW</p>
 </div>
@@ -567,9 +567,9 @@ understand this assignment! I think you did a really great job! - AW</p>
 <pre class="r"><code>#std error for intercept: 0.67293
 #std error for slope: 0.08488
 sd_intercept</code></pre>
-<pre><code>## [1] 0.5998859</code></pre>
+<pre><code>## [1] 0.5984381</code></pre>
 <pre class="r"><code>sd_slope</code></pre>
-<pre><code>## [1] 0.07722354</code></pre>
+<pre><code>## [1] 0.07718193</code></pre>
 <p>The standard error for the bootstraped regression is lower for both
 intercept and slope when compared to the lm().</p>
 <pre class="r"><code>conf_int_lm &lt;- confint(m, level = 0.95)
@@ -578,18 +578,20 @@ conf_int_lm</code></pre>
 ## (Intercept)                -10.7720889 -8.110374
 ## log(Body_mass_female_mean)   0.8685707  1.204292</code></pre>
 <pre class="r"><code>lower_CI_int #slightly lower than lm()</code></pre>
-<pre><code>## [1] -10.6216</code></pre>
+<pre><code>## [1] -10.63139</code></pre>
 <pre class="r"><code>upper_CI_int #slightly higher than lm()</code></pre>
-<pre><code>## [1] -8.270086</code></pre>
+<pre><code>## [1] -8.285553</code></pre>
 <pre class="r"><code>lower_CI_sl #slightly higher than lm()</code></pre>
-<pre><code>## [1] 0.8858362</code></pre>
+<pre><code>## [1] 0.8868897</code></pre>
 <pre class="r"><code>upper_CI_sl #slightly higher than lm()</code></pre>
-<pre><code>## [1] 1.188547</code></pre>
+<pre><code>## [1] 1.189437</code></pre>
 <p>There are some differences in the CIs, but overall, I doubt the
 differences are significantly different.</p>
 <p><strong>NOTES</strong> I agree, my CI values were slightly different
 but really close to the CI values from the original model so I doubt
-they are too significant. -AW</p>
+they are too significant. You did a really good job, I honestly thought
+this assignment was really straight-forward too so I don’t have many
+comments for improvement. Nice job !! -AW</p>
 </div>
 <div id="challenges-i-faced" class="section level2">
 <h2>Challenges I faced:</h2>

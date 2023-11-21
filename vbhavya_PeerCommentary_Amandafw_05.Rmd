@@ -113,7 +113,7 @@ upper_CI_sl #slightly higher than lm()
 ```
 There are some differences in the CIs, but overall, I doubt the differences are significantly different. 
 
-**NOTES** I agree, my CI values were slightly different but really close to the CI values from the original model so I doubt they are too significant. -AW
+**NOTES** I agree, my CI values were slightly different but really close to the CI values from the original model so I doubt they are too significant. You did a really good job, I honestly thought this assignment was really straight-forward too so I don't have many comments for improvement. Nice job !! -AW
 
 ## Challenges I faced: 
 I found this assignment super straightforward. I did refer to https://towardsdatascience.com/linear-regression-with-bootstrapping-4924c05d2a9 for the bootstrapping code. I tried several different methods. I tried a function called boots_lm from the nlraa package but that didn't work out for me. After that I just ended up using the website I referenced. It was super comprehensive. 
